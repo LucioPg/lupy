@@ -1,5 +1,8 @@
 """Tools collection"""
-from lupy.modules import *
+try:
+    from lupy.modules import *
+except ImportError:
+    from modules import *
 
 
 def array2csv(array: list, header: list = None) -> list:
@@ -16,7 +19,7 @@ def array2csv(array: list, header: list = None) -> list:
             header = list2csv(header)
             lst.insert(0, header)
         except InvalidHeader:
-            header = None
+            pass
     return lst
 
 
@@ -145,6 +148,26 @@ def remove_tmp(target='minio'):
     except OSError as err:
         print(err)
 
+
+def search_docs(module, keywords):
+    """
+    search keywords in all docs for all the functions into the given module and
+    returns candidates
+    search
+    :param func:
+    :return:
+    """
+    try:
+        __import__(module.__name__)
+    except ImportError as err:
+        print(err)
+        return
+    if type(keywords) is not list:
+        keywords = [str(keywords)]
+    return [name for keyword in keywords
+            for name, func in module.__dict__.items()
+            if not name.startswith('_') and type(func) is type(search_docs)
+            if keyword.lower() in func.__doc__.lower()]
 
 def sort_dict_vals(dic: dict) -> dict:
     """Sort dict by value
