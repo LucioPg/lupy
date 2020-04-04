@@ -22,8 +22,3 @@ def timeit_dec(func):
     return inner
 
 
-def anoth(func):
-    def inner(*args, **kwargs):
-        print('Another one')
-        return func(*args, **kwargs)
-    return inner
