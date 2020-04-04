@@ -1,4 +1,4 @@
-"""Tools collection"""
+# """Tools collection"""
 try:
     from lupy.modules import *
 except ImportError:
@@ -124,10 +124,12 @@ def recursive_split(path):
     :param path: path
     :return: tuple
     """
-    rest, tail = os.path.split(path)
-    if rest == '':
-        return tail,  # return a tuple
-    return recursive_split(rest) + (tail,)
+    def recursive(path):
+        rest, tail = os.path.split(path)
+        if tail == '':
+            return tail,  # return a tuple
+        return recursive_split(rest) + (tail,)
+    return tuple([chunk for chunk in recursive(path) if chunk])
 
 
 def remove_duplicates(lst: list):
@@ -148,6 +150,13 @@ def remove_tmp(target='minio'):
     except OSError as err:
         print(err)
 
+def rotate_list(lst: list,step=1, forward=True) -> list:
+    if lst:
+        if len(lst) == step:
+            return lst
+        if not forward:
+            step *= - 1
+        return lst[step:] + lst[:step]
 
 def search_docs(module, keywords):
     """
@@ -191,3 +200,4 @@ def trans_2d_array(array: list):
     #
     array = [['a', 'b'], ['c', 'd',], ['e', 'f']]
     return zip(*array)
+

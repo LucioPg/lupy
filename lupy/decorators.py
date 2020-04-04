@@ -20,3 +20,10 @@ def timeit_dec(func):
         print(f'Excution time {func.__name__}: {end - start}')
         return result
     return inner
+
+
+def anoth(func):
+    def inner(*args, **kwargs):
+        print('Another one')
+        return func(*args, **kwargs)
+    return inner

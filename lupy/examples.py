@@ -10,7 +10,7 @@ try:
 except ImportError:
     from exceptions import *
 
-
+@anoth
 @example_dec
 def chained_comparison():
     """Example of Chained Comparison:
